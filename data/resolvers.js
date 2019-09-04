@@ -1,17 +1,6 @@
 import mongoose from 'mongoose'
-import { Cliente } from './db'
-
-class Cliente {
-  constructor(id, { name, surname, company, emails,tipo, pedidos }){
-    this.id = id;
-    this.name = name;
-    this.surname = surname;
-    this.company = company;
-    this.emails = emails;
-    this.tipo = tipo;
-    this.pedidos =pedidos;
-  }
-}
+import { Cliente, Clientes } from './db'
+import { rejects } from 'assert';
 
 export const resolvers = {
   Query : {
@@ -21,10 +10,21 @@ export const resolvers = {
   },
   Mutation: {
     crearCliente : (root, { input } ) => {
+      const nuevoCliente = new Clientes({
+        name : input.name,
+        surname : input.surname,
+        company : input.company,
+        emails : input.emails,
+        tipo : input.tipo,
+        pedidos : input.pedidos
+      });
       
+      nuevoCliente.id = nuevoCliente._id;
+
+      return new Promise((res,obj) => nuevoCliente.save((err)=> err ? rejects(err) : res(nuevoCliente)))
+
       // const id = require('crypto').randomBytes(10).toString('hex');
-      DB[id] = input;
-      return new Cliente(id, input)
+     
     }
   }
 }
