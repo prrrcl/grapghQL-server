@@ -10,9 +10,19 @@ app.get('/', (req,res,next)=>{
   res.send('Todo ok!')
 })
 
+class Cliente {
+  constructor(id, { name, surname, company, email }){
+    this.id = id;
+    this.name = name;
+    this.surname = surname;
+    this.company = company;
+    this.email = email;
+  }
+}
+
+const DB = {}
 
 // resolver
-
 const root = {
   cliente: () => {
     return {
@@ -20,9 +30,13 @@ const root = {
       "name" : "Pepe",
       "surname" : "Palotes",
       "company" : "Ementh",
-      "email" : "a@a.com"
+      "emails" : "a@a.com"
+    }},
+    crearCliente : ( { input } ) => {
+        const id = require('crypto').randomBytes(10).toString('hex');
+        DB[id] = input;
+        return new Cliente(id, input)
     }
-  }
 }
 
 
