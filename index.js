@@ -11,11 +11,20 @@ app.get('/', (req,res,next)=>{
 })
 
 
-// resolver query
+// resolver
 
 const root = {
-  hola: () => 'hola mundo desde GraphQL'
+  cliente: () => {
+    return {
+      "id" : 2132312312321454546554,
+      "name" : "Pepe",
+      "surname" : "Palotes",
+      "company" : "Ementh",
+      "email" : "a@a.com"
+    }
+  }
 }
+
 
 app.use('/graphql', graphqlHTTP({
   // pasamos el schema
