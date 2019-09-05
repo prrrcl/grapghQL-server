@@ -2,7 +2,7 @@ import mongoose, { connect } from 'mongoose'
 
 mongoose.Promise = global.Promise
 
-mongoose.connect('mongodb://localhost/clients', {useNewUrlParser: true})
+mongoose.connect('mongodb://localhost/clients', {useNewUrlParser: true, useFindAndModify: false})
 
 // Definimos el schema de Clientes
 

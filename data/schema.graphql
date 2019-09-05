@@ -25,6 +25,7 @@ type Cliente {
   input EmailInput {
     email: String
   }
+  
   input PedidoInput{
     producto: String
     precio: Int
@@ -45,4 +46,6 @@ type Cliente {
   type Mutation {
     # Nombre del Resolver, input con datos y valor que retorna
     crearCliente(input: ClienteInput) : Cliente
+    actualizarCliente(input: ClienteInput) : Cliente
+    eliminarCliente(id: ID!) : String
   }

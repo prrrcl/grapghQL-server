@@ -18,13 +18,33 @@ export const resolvers = {
         tipo : input.tipo,
         pedidos : input.pedidos
       });
-      
-      nuevoCliente.id = nuevoCliente._id;
 
-      return new Promise((res,obj) => nuevoCliente.save((err)=> err ? rejects(err) : res(nuevoCliente)))
+      return new Promise((res,obj) => {
+        nuevoCliente.save((err)=> {
+          err ? rejects(err) : res(nuevoCliente)
+        })
+      })
 
       // const id = require('crypto').randomBytes(10).toString('hex');
      
+    },
+
+    actualizarCliente : (root,{ input }) => {
+      return new Promise((res,obj)=>{
+        Clientes.findOneAndUpdate({_id: input.id} , input, {new: true}, (err,cliente) =>{
+          err ? rejects(err) : res(cliente)
+         })
+      })
+    },
+
+    eliminarCliente : (root, { id }) => {
+      return new Promise ( (res,obj) =>{
+        Clientes.findOneAndRemove({_id: input.id}, err => {
+          err ? rejects(err) : "Se eliminó correctamente."
+        })
+      })
     }
+
+
   }
 }
