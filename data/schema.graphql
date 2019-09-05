@@ -21,6 +21,7 @@ type Cliente {
   }
   type Query {
     getCliente(id: ID) : Cliente
+    getClientes(limit: Int) : [Cliente]
   }
   input EmailInput {
     email: String

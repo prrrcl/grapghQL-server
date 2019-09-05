@@ -1,20 +1,13 @@
 import express from 'express';
 // graphql
-import graphqlHTTP from 'express-graphql'
-import { schema } from './data/schema'
+import {ApolloServer} from 'apollo-server-express'
+import { typeDefs } from './data/schema';
+import { resolvers } from './data/resolvers'
 
-const app = express();
+const app = express()
 
-app.get('/', (req,res,next)=>{
-  res.send('Todo ok!')
-})
+const server = new ApolloServer({typeDefs, resolvers})
 
+server.applyMiddleware({app})
 
-app.use('/graphql', graphqlHTTP({
-  // pasamos el schema
-  schema,
-  // utilizar graphiql
-  graphiql: true
-}))
-
-app.listen(5000, ()=> console.log('Server On'))
+app.listen({port:5000}, ()=> console.log(`El servidor está corriendo http://localhost:5000/${server.graphqlPath}`))

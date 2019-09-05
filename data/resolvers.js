@@ -4,8 +4,15 @@ import { rejects } from 'assert';
 
 export const resolvers = {
   Query : {
-    getCliente :  ({id}) => {
-      return new Cliente(id, DB[id])
+    getCliente :  (root, {id}) => {
+      return new Promise ((res,obj) => {
+        Clientes.findById(id, (err,client) => {
+          err ? rejects(err) : res(client)
+        })
+      })
+    },
+    getClientes : (root, {limit}) => {
+      return Clientes.find().limit(limit)
     },
   },
   Mutation: {
@@ -39,8 +46,8 @@ export const resolvers = {
 
     eliminarCliente : (root, { id }) => {
       return new Promise ( (res,obj) =>{
-        Clientes.findOneAndRemove({_id: input.id}, err => {
-          err ? rejects(err) : "Se eliminó correctamente."
+        Clientes.findOneAndRemove({_id: id}, err => {
+          err ? rejects(err) : res("Se eliminó correctamente.")
         })
       })
     }
