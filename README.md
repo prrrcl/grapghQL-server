@@ -1,1 +1,1 @@
-## Practice repo
+## Practice repo (GraphQL & Apollo practice)
