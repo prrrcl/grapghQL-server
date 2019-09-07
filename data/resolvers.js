@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Cliente, Clientes } from './db'
+import { Cliente, Clientes, User} from './db'
 import { rejects } from 'assert';
 
 export const resolvers = {
@@ -11,9 +11,16 @@ export const resolvers = {
         })
       })
     },
-    getClientes : (root, {limit}) => {
-      return Clientes.find().limit(limit)
+    getClientes : (root, {limit, offset}) => {
+      return Clientes.find().limit(limit).skip(offset)
     },
+    getTotal : (root) => {
+      return new Promise ( (res,obj) => {
+        Clientes.countDocuments({}, (error,count)=>{
+          error ? rejects(error) : res(count);
+        })
+      })
+    }
   },
   Mutation: {
     crearCliente : (root, { input } ) => {
@@ -50,8 +57,21 @@ export const resolvers = {
           err ? rejects(err) : res("Se eliminó correctamente.")
         })
       })
+    },
+
+    userCreate : async(root, {user, password}) => {
+      const exist = await User.findOne({user})
+      if(exist){
+        throw new Error('El usuario ya existe')
+      }else{
+        await new User({
+          user,
+          password
+        }).save();
+  
+        return 'Creado correctamente'
+      }
+
     }
-
-
   }
 }

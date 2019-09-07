@@ -3,11 +3,11 @@ type Cliente {
   name: String
   surname: String
   company: String
-  emails: [Email]
+  emails : [Email]
   tipo: TipoCliente
   pedidos: [Pedido]
 }
-type Email{
+type Email {
   email: String
 }
 type Pedido {
@@ -19,16 +19,16 @@ enum TipoCliente {
   PREMIUM
 }
 type Query {
+  getTotal: String
   getCliente(id: ID) : Cliente
-  getClientes(limit: Int) : [Cliente]
+  getClientes(limit: Int, offset: Int) : [Cliente]
 }
-input PedidoInput{
+input PedidoInput {
   producto: String
   precio: Int
 }
 
-""" Input para crear nuevos clientes """
-input ClienteInput{
+input ClienteInput {
   id: ID
   name: String
   surname: String
@@ -37,14 +37,13 @@ input ClienteInput{
   tipo: TipoCliente
   pedidos: [PedidoInput]
 }
-  input EmailInput{
+input EmailInput {
   email: String
 }
 
-""" Mutations para crear nuevos clientes """
 type Mutation {
-  # Nombre del Resolver, input con datos y valor que retorna
   crearCliente(input: ClienteInput) : Cliente
   actualizarCliente(input: ClienteInput) : Cliente
   eliminarCliente(id: ID!) : String
+  userCreate(user: String!, password: String! ) : String
 }
